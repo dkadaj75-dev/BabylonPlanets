@@ -176,6 +176,7 @@ export const arenaSchema = z
   });
 
 export type ArenaConfig = z.infer<typeof arenaSchema>;
+export type BoundsInput = z.input<typeof boundsSchema>;
 export type ArenaConfigInput = z.input<typeof arenaSchema>;
 export type AsteroidPlacement = z.infer<typeof asteroidPlacementSchema>;
 export type SpawnPoint = z.infer<typeof spawnPointSchema>;
