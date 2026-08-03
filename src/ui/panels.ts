@@ -217,6 +217,10 @@ export function buildPanels(root: HTMLElement, state: EditorState, hooks: PanelH
           };
           hooks.onSkyboxGenerated(result);
           skyStatus = `generated ${result.width}×${result.height} (${(result.blob.size / 1024).toFixed(0)} KiB)`;
+          if (result.blob.type !== "image/webp") {
+            skyStatus +=
+              " — this browser can't encode webp (saved as PNG); convert to .webp before shipping";
+          }
           state.notify();
         } catch (err) {
           skyStatus = `failed: ${err instanceof Error ? err.message : String(err)}`;
@@ -231,7 +235,8 @@ export function buildPanels(root: HTMLElement, state: EditorState, hooks: PanelH
       const url = URL.createObjectURL(lastSkybox.blob);
       const a = document.createElement("a");
       a.href = url;
-      a.download = `${arenaSlug(state.arena.id)}.webp`;
+      const ext = lastSkybox.blob.type === "image/webp" ? "webp" : "png";
+      a.download = `${arenaSlug(state.arena.id)}.${ext}`;
       a.click();
       URL.revokeObjectURL(url);
     });

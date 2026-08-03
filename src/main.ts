@@ -10,12 +10,27 @@ if (!(canvas instanceof HTMLCanvasElement)) throw new Error("#render-canvas not 
 if (!(sidebar instanceof HTMLElement)) throw new Error("#sidebar not found");
 
 const state = new EditorState();
-const editor = new EditorScene(canvas);
-const placements = new PlacementLayer(editor.scene);
+
+// The 3D viewport is optional: if WebGL context creation fails (some iPads
+// under memory pressure, remote desktops), the panels must still work.
+let editor: EditorScene | null = null;
+let placements: PlacementLayer | null = null;
+try {
+  editor = new EditorScene(canvas);
+  placements = new PlacementLayer(editor.scene);
+} catch (err) {
+  console.error("3D viewport unavailable:", err);
+  const box = document.getElementById("fatal-error");
+  if (box instanceof HTMLElement) {
+    box.style.display = "block";
+    box.textContent = `3D viewport unavailable (panels still work): ${String(err)}`;
+  }
+}
 
 let skyboxUrl: string | null = null;
 
 const syncScene = (): void => {
+  if (!editor || !placements) return;
   editor.setBounds(state.arena.bounds);
   placements.sync(state.arena);
 };
@@ -24,6 +39,7 @@ syncScene();
 
 buildPanels(sidebar, state, {
   onSkyboxGenerated(result) {
+    if (!editor) return;
     if (skyboxUrl) URL.revokeObjectURL(skyboxUrl);
     skyboxUrl = URL.createObjectURL(result.blob);
     const radius = state.arena.bounds.shape === "sphere" ? state.arena.bounds.radius : 150;
@@ -36,10 +52,12 @@ buildPanels(sidebar, state, {
 // Default starfield + sun so the viewport reads as space from the first frame
 // instead of a black void. Preview-only: it is not written into the arena —
 // the Skybox panel's "Generate & preview" replaces it and records the config.
-void generateSkybox({ width: 2048 }).then((result) => {
-  if (skyboxUrl) return; // a user-generated panorama already took over
-  skyboxUrl = URL.createObjectURL(result.blob);
-  const radius = state.arena.bounds.shape === "sphere" ? state.arena.bounds.radius : 150;
-  editor.applySkyboxPreview(skyboxUrl, radius, 0.9);
-  editor.setSun(result.sunDir, "#ffe9d0", 1);
-});
+void generateSkybox({ width: 2048 })
+  .then((result) => {
+    if (!editor || skyboxUrl) return; // no viewport, or a user panorama took over
+    skyboxUrl = URL.createObjectURL(result.blob);
+    const radius = state.arena.bounds.shape === "sphere" ? state.arena.bounds.radius : 150;
+    editor.applySkyboxPreview(skyboxUrl, radius, 0.9);
+    editor.setSun(result.sunDir, "#ffe9d0", 1);
+  })
+  .catch((err) => console.error("default skybox generation failed:", err));

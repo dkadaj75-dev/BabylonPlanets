@@ -88,6 +88,11 @@ function createCanvas(width: number, height: number): OffscreenCanvas | HTMLCanv
   return c;
 }
 
+/**
+ * Encode preferring webp; Safari can't encode webp and silently falls back to
+ * PNG (spec behavior), which is fine for previewing. The blob's `type` tells
+ * callers what was actually produced.
+ */
 function canvasToWebp(canvas: OffscreenCanvas | HTMLCanvasElement): Promise<Blob> {
   if ("convertToBlob" in canvas) {
     return canvas.convertToBlob({ type: "image/webp", quality: 0.9 });

@@ -128,9 +128,42 @@
       .error:empty {
         display: none;
       }
+      #fatal-error {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        background: #4d1f2a;
+        color: #ffd7de;
+        font: 12px/1.4 ui-monospace, monospace;
+        padding: 8px 12px;
+        white-space: pre-wrap;
+        display: none;
+      }
     </style>
+    <script>
+      // Classic (non-module) script so it runs even when the app bundle
+      // fails to parse or load — surfaces the error instead of a black page.
+      window.addEventListener("error", function (e) {
+        var box = document.getElementById("fatal-error");
+        if (!box) return;
+        box.style.display = "block";
+        box.textContent =
+          "BabylonPlanets failed to start: " +
+          (e.message || "script load error") +
+          (e.filename ? "\n" + e.filename + ":" + e.lineno : "");
+      });
+      window.addEventListener("unhandledrejection", function (e) {
+        var box = document.getElementById("fatal-error");
+        if (!box) return;
+        box.style.display = "block";
+        box.textContent = "BabylonPlanets failed to start: " + String(e.reason);
+      });
+    </script>
   </head>
   <body>
+    <div id="fatal-error"></div>
     <div id="app">
       <aside id="sidebar"></aside>
       <main id="viewport"><canvas id="render-canvas"></canvas></main>
