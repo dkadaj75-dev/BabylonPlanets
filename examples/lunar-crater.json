@@ -57,8 +57,8 @@
   },
   "render": {
     "skybox": {
-      "texture": "skyboxes/deep-field.webp",
-      "intensity": 0.72,
+      "texture": "skyboxes/lunar-crater.webp",
+      "intensity": 0.9,
       "tint": "#f2f4f7",
       "sun": {
         "dir": [-0.707, 0.5, -0.5],
