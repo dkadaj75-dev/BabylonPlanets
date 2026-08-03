@@ -1,0 +1,70 @@
+{
+  "id": "arena.broken-halo",
+  "type": "arena",
+  "version": 1,
+  "name": "Broken Halo",
+  "bounds": {
+    "shape": "sphere",
+    "radius": 150
+  },
+  "asteroidPlacements": [
+    { "asteroidId": "asteroid.large-hazard", "position": { "x": 0, "y": 0, "z": 72 }, "rotation": 0.2 },
+    { "asteroidId": "asteroid.large-hazard-b", "position": { "x": 0, "y": 38.15, "z": 61.06 }, "rotation": 2.7 },
+    { "asteroidId": "asteroid.large-hazard", "position": { "x": 0, "y": 64.71, "z": 31.56 }, "rotation": 1.1 },
+    { "asteroidId": "asteroid.large-hazard-b", "position": { "x": 0, "y": 66.58, "z": -27.55 }, "rotation": 2.2 },
+    { "asteroidId": "asteroid.large-hazard", "position": { "x": 0, "y": 42.32, "z": -58.25 }, "rotation": 0.7 },
+    { "asteroidId": "asteroid.large-hazard-b", "position": { "x": 0, "y": 5.02, "z": -71.82 }, "rotation": 1.8 },
+    { "asteroidId": "asteroid.large-hazard", "position": { "x": 0, "y": -50.68, "z": -51.16 }, "rotation": 2.9 },
+    { "asteroidId": "asteroid.large-hazard-b", "position": { "x": 0, "y": -69.17, "z": -19.84 }, "rotation": 0.4 },
+    { "asteroidId": "asteroid.large-hazard", "position": { "x": 0, "y": -68.48, "z": 22.25 }, "rotation": 1.4 },
+    { "asteroidId": "asteroid.large-hazard-b", "position": { "x": 0, "y": -46.28, "z": 55.16 }, "rotation": 2.5 },
+    { "asteroidId": "asteroid.small-rock", "position": { "x": -112, "y": 0, "z": -32 }, "rotation": 0.6 },
+    { "asteroidId": "asteroid.small-rock-b", "position": { "x": 112, "y": 0, "z": -32 }, "rotation": 2.4 },
+    { "asteroidId": "asteroid.small-rock-b", "position": { "x": -112, "y": 0, "z": 32 }, "rotation": 1.3 },
+    { "asteroidId": "asteroid.small-rock", "position": { "x": 112, "y": 0, "z": 32 }, "rotation": 1.9 }
+  ],
+  "spawnPoints": [
+    { "id": "sp-blue-1", "team": 0, "position": { "x": -108, "y": 0, "z": -16 }, "heading": 0 },
+    { "id": "sp-blue-2", "team": 0, "position": { "x": -108, "y": 0, "z": -8 }, "heading": 0 },
+    { "id": "sp-blue-3", "team": 0, "position": { "x": -108, "y": 0, "z": 0 }, "heading": 0 },
+    { "id": "sp-blue-4", "team": 0, "position": { "x": -108, "y": 0, "z": 8 }, "heading": 0 },
+    { "id": "sp-blue-5", "team": 0, "position": { "x": -108, "y": 0, "z": 16 }, "heading": 0 },
+    { "id": "sp-red-1", "team": 1, "position": { "x": 108, "y": 0, "z": -16 }, "heading": 3.141593 },
+    { "id": "sp-red-2", "team": 1, "position": { "x": 108, "y": 0, "z": -8 }, "heading": 3.141593 },
+    { "id": "sp-red-3", "team": 1, "position": { "x": 108, "y": 0, "z": 0 }, "heading": 3.141593 },
+    { "id": "sp-red-4", "team": 1, "position": { "x": 108, "y": 0, "z": 8 }, "heading": 3.141593 },
+    { "id": "sp-red-5", "team": 1, "position": { "x": 108, "y": 0, "z": 16 }, "heading": 3.141593 }
+  ],
+  "flagBases": [
+    { "id": "flag-base-blue", "team": 0, "position": { "x": -124, "y": 0, "z": 0 }, "radius": 16 },
+    { "id": "flag-base-red", "team": 1, "position": { "x": 124, "y": 0, "z": 0 }, "radius": 16 }
+  ],
+  "lighting": {
+    "ambientColor": "#18243a",
+    "ambientIntensity": 0.3,
+    "directionalIntensity": 1
+  },
+  "render": {
+    "skybox": {
+      "texture": "skyboxes/ring-nebula.webp",
+      "intensity": 0.85,
+      "tint": "#dce4ff",
+      "sun": {
+        "dir": [-0.677, -0.208, -0.706],
+        "color": "#dce4ff",
+        "intensity": 1
+      }
+    },
+    "boundaryShield": {
+      "baseOpacity": 0.05,
+      "glowStartDistance": 48,
+      "redTransitionDistance": 19,
+      "warnDistance": 26,
+      "blueColor": "#45c8ff",
+      "redColor": "#ff405c",
+      "hexDensity": 42,
+      "warningNotification": "notification.boundary-warning"
+    }
+  },
+  "zones": []
+}

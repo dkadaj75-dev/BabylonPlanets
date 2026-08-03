@@ -8,6 +8,7 @@ the game's `content/` tree.
 
 - **Tech stack & architecture:** [TECH_STACK.md](TECH_STACK.md)
 - **Export target format (authoritative):** [docs/space-arena-import-reference.md](docs/space-arena-import-reference.md)
+- **AI map-design prompt + worked examples:** [docs/MAP-DESIGN-PROMPT.md](docs/MAP-DESIGN-PROMPT.md), [examples/](examples/)
 
 ## Getting started
 

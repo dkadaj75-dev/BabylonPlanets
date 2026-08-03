@@ -1,0 +1,62 @@
+{
+  "id": "arena.twin-titans",
+  "type": "arena",
+  "version": 1,
+  "name": "Twin Titans",
+  "bounds": {
+    "shape": "sphere",
+    "radius": 100
+  },
+  "asteroidPlacements": [
+    { "asteroidId": "asteroid.colossal-a", "position": { "x": 0, "y": 30, "z": 52 }, "rotation": 0.35, "scale": 1.4 },
+    { "asteroidId": "asteroid.colossal-b", "position": { "x": 0, "y": -30, "z": -52 }, "rotation": 2.15, "scale": 1.4 },
+    { "asteroidId": "asteroid.large-hazard", "position": { "x": 52, "y": 36, "z": 56 }, "rotation": 0.8 },
+    { "asteroidId": "asteroid.large-hazard", "position": { "x": -52, "y": 36, "z": 56 }, "rotation": 2.45 },
+    { "asteroidId": "asteroid.large-hazard-b", "position": { "x": 52, "y": -36, "z": -56 }, "rotation": 1.25 },
+    { "asteroidId": "asteroid.large-hazard-b", "position": { "x": -52, "y": -36, "z": -56 }, "rotation": 2.9 },
+    { "asteroidId": "asteroid.small-rock", "position": { "x": 30, "y": 34, "z": -40 }, "rotation": 0.5 },
+    { "asteroidId": "asteroid.small-rock", "position": { "x": -30, "y": 34, "z": -40 }, "rotation": 2.6 },
+    { "asteroidId": "asteroid.small-rock-b", "position": { "x": 30, "y": -34, "z": 40 }, "rotation": 1.1 },
+    { "asteroidId": "asteroid.small-rock-b", "position": { "x": -30, "y": -34, "z": 40 }, "rotation": 2.0 },
+    { "asteroidId": "asteroid.small-rock-b", "position": { "x": 68, "y": 20, "z": 30 }, "rotation": 0.9 },
+    { "asteroidId": "asteroid.small-rock-b", "position": { "x": -68, "y": 20, "z": 30 }, "rotation": 2.3 },
+    { "asteroidId": "asteroid.small-rock", "position": { "x": 68, "y": -20, "z": -30 }, "rotation": 1.6 },
+    { "asteroidId": "asteroid.small-rock", "position": { "x": -68, "y": -20, "z": -30 }, "rotation": 2.75 }
+  ],
+  "spawnPoints": [
+    { "id": "sp-blue-1", "team": 0, "position": { "x": -78, "y": 0, "z": -10 }, "heading": 0 },
+    { "id": "sp-blue-2", "team": 0, "position": { "x": -78, "y": 0, "z": 0 }, "heading": 0 },
+    { "id": "sp-blue-3", "team": 0, "position": { "x": -78, "y": 0, "z": 10 }, "heading": 0 },
+    { "id": "sp-red-1", "team": 1, "position": { "x": 78, "y": 0, "z": -10 }, "heading": 3.141593 },
+    { "id": "sp-red-2", "team": 1, "position": { "x": 78, "y": 0, "z": 0 }, "heading": 3.141593 },
+    { "id": "sp-red-3", "team": 1, "position": { "x": 78, "y": 0, "z": 10 }, "heading": 3.141593 }
+  ],
+  "lighting": {
+    "ambientColor": "#2a2418",
+    "ambientIntensity": 0.28,
+    "directionalIntensity": 1.1
+  },
+  "render": {
+    "skybox": {
+      "texture": "skyboxes/deep-field.webp",
+      "intensity": 0.85,
+      "tint": "#fff3dd",
+      "sun": {
+        "dir": [0.777, 0.309, 0.55],
+        "color": "#ffecc8",
+        "intensity": 1.1
+      }
+    },
+    "boundaryShield": {
+      "baseOpacity": 0.05,
+      "glowStartDistance": 32,
+      "redTransitionDistance": 13,
+      "warnDistance": 18,
+      "blueColor": "#45c8ff",
+      "redColor": "#ff405c",
+      "hexDensity": 42,
+      "warningNotification": "notification.boundary-warning"
+    }
+  },
+  "zones": []
+}
