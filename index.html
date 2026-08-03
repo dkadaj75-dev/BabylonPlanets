@@ -145,29 +145,56 @@
     <script>
       // Classic (non-module) script so it runs even when the app bundle
       // fails to parse or load — surfaces the error instead of a black page.
-      window.addEventListener("error", function (e) {
+      // Capture phase so resource (script/img) load errors, which fire on the
+      // element and don't bubble, are caught too.
+      function showFatal(text) {
         var box = document.getElementById("fatal-error");
         if (!box) return;
         box.style.display = "block";
-        box.textContent =
-          "BabylonPlanets failed to start: " +
-          (e.message || "script load error") +
-          (e.filename ? "\n" + e.filename + ":" + e.lineno : "");
-      });
+        box.textContent = text;
+      }
+      window.addEventListener(
+        "error",
+        function (e) {
+          var t = e.target;
+          if (t && t !== window && t.tagName) {
+            showFatal(
+              "BabylonPlanets failed to load a resource: <" +
+                t.tagName.toLowerCase() +
+                "> " +
+                (t.src || t.href || "")
+            );
+            return;
+          }
+          showFatal(
+            "BabylonPlanets failed to start: " +
+              (e.message || "script error") +
+              (e.filename ? "\n" + e.filename + ":" + e.lineno : "")
+          );
+        },
+        true
+      );
       window.addEventListener("unhandledrejection", function (e) {
-        var box = document.getElementById("fatal-error");
-        if (!box) return;
-        box.style.display = "block";
-        box.textContent = "BabylonPlanets failed to start: " + String(e.reason);
+        showFatal("BabylonPlanets failed to start: " + String(e.reason));
       });
     </script>
   </head>
   <body>
     <div id="fatal-error"></div>
     <div id="app">
-      <aside id="sidebar"></aside>
+      <aside id="sidebar">
+        <div id="boot-status" style="color: #7b8aa5">
+          Loading BabylonPlanets…<br />
+          If this message stays, the app bundle did not run.<br />
+          <span id="boot-ua" style="font-size: 10px"></span>
+        </div>
+      </aside>
       <main id="viewport"><canvas id="render-canvas"></canvas></main>
     </div>
+    <script>
+      document.getElementById("boot-ua").textContent =
+        "build 3 · " + navigator.userAgent;
+    </script>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

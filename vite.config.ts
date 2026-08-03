@@ -5,10 +5,11 @@ export default defineConfig({
   // Pages serving from /BabylonPlanets/).
   base: "./",
   build: {
-    // safari15 keeps the bundle parseable on iPads that haven't reached
-    // 16.4 — es2022 emitted syntax that older WebKit rejects at parse time,
-    // which killed the whole module (black screen, empty sidebar).
-    target: ["es2020", "safari15"],
+    // safari12 keeps the bundle parseable on old iPads — es2022 emitted
+    // syntax that older WebKit rejects at parse time, which killed the whole
+    // module (black screen, empty sidebar). safari12 also transpiles
+    // optional chaining / nullish coalescing for pre-13.1 WebKit.
+    target: ["es2018", "safari12"],
     chunkSizeWarningLimit: 4096
   }
 });
