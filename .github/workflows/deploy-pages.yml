@@ -27,6 +27,19 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run build
+      # configure-pages only *creates* the site; it does not change the build
+      # type of one that already exists. This repo's Pages site predates the
+      # workflow in legacy "deploy from a branch" mode, so it kept serving the
+      # raw repo files (index.html -> /src/main.ts -> 404: black screen) while
+      # these workflow deploys were ignored. Flip it to workflow builds.
+      - name: Ensure Pages serves workflow builds, not the raw branch
+        run: |
+          curl -sf -X PUT \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pages" \
+            -d '{"build_type":"workflow"}' \
+            || echo "::warning::could not update Pages build_type (check Settings > Pages > Source)"
       - uses: actions/configure-pages@v5
         with:
           enablement: true
