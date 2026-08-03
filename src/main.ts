@@ -4,6 +4,10 @@ import { EditorState } from "./state/editorState";
 import { buildPanels } from "./ui/panels";
 import { generateSkybox } from "./skybox/generateSkybox";
 
+// Startup beacon for the index.html boot probe: proves the bundle executed
+// (its static imports evaluated) even if something later fails.
+(window as unknown as { __appBooted?: boolean }).__appBooted = true;
+
 const canvas = document.getElementById("render-canvas");
 const sidebar = document.getElementById("sidebar");
 if (!(canvas instanceof HTMLCanvasElement)) throw new Error("#render-canvas not found");

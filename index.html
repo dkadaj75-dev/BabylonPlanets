@@ -193,7 +193,43 @@
     </div>
     <script>
       document.getElementById("boot-ua").textContent =
-        "build 3 · " + navigator.userAgent;
+        "build 4 · " + navigator.userAgent;
+      // If the app bundle hasn't executed a few seconds after load, probe the
+      // module URL directly and report what the server actually returned —
+      // distinguishes fetch failures from fetched-but-never-executed.
+      window.addEventListener("load", function () {
+        setTimeout(function () {
+          if (window.__appBooted) return;
+          var status = document.getElementById("boot-status");
+          if (!status) return;
+          var tag = document.querySelector('script[type="module"]');
+          var line = document.createElement("div");
+          line.style.color = "#ffd24a";
+          status.appendChild(line);
+          if (!tag || !tag.src) {
+            line.textContent = "probe: no module script tag found";
+            return;
+          }
+          line.textContent = "probe: fetching " + tag.src + " …";
+          fetch(tag.src)
+            .then(function (res) {
+              return res.text().then(function (body) {
+                line.textContent =
+                  "probe: HTTP " +
+                  res.status +
+                  " · " +
+                  (res.headers.get("content-type") || "no content-type") +
+                  " · " +
+                  body.length +
+                  " chars · starts: " +
+                  body.slice(0, 60).replace(/\s+/g, " ");
+              });
+            })
+            .catch(function (err) {
+              line.textContent = "probe: fetch failed — " + String(err);
+            });
+        }, 4000);
+      });
     </script>
     <script type="module" src="/src/main.ts"></script>
   </body>
