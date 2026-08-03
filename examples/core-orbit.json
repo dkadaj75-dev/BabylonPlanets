@@ -1,0 +1,79 @@
+{
+  "id": "arena.core-orbit",
+  "type": "arena",
+  "version": 1,
+  "name": "Core Orbit",
+  "bounds": {
+    "shape": "sphere",
+    "radius": 126
+  },
+  "asteroidPlacements": [
+    { "asteroidId": "asteroid.colossal-a", "position": { "x": 0, "y": 0, "z": 0 }, "rotation": 0.6, "scale": 1.5 },
+    { "asteroidId": "asteroid.colossal-b", "position": { "x": 0, "y": 40, "z": 78 }, "rotation": 2.1 },
+    { "asteroidId": "asteroid.colossal-b", "position": { "x": 0, "y": -40, "z": -78 }, "rotation": 4.4 },
+    { "asteroidId": "asteroid.large-hazard", "position": { "x": 45, "y": 30, "z": 45 }, "rotation": 0.8 },
+    { "asteroidId": "asteroid.large-hazard-b", "position": { "x": -45, "y": 30, "z": 45 }, "rotation": 2.45 },
+    { "asteroidId": "asteroid.large-hazard-b", "position": { "x": 45, "y": -30, "z": -45 }, "rotation": 1.25 },
+    { "asteroidId": "asteroid.large-hazard", "position": { "x": -45, "y": -30, "z": -45 }, "rotation": 2.9 },
+    { "asteroidId": "asteroid.large-hazard", "position": { "x": 70, "y": 45, "z": 0 }, "rotation": 0.35 },
+    { "asteroidId": "asteroid.large-hazard-b", "position": { "x": -70, "y": 45, "z": 0 }, "rotation": 1.7 },
+    { "asteroidId": "asteroid.large-hazard-b", "position": { "x": 70, "y": -45, "z": 0 }, "rotation": 3.6 },
+    { "asteroidId": "asteroid.large-hazard", "position": { "x": -70, "y": -45, "z": 0 }, "rotation": 5.1 },
+    { "asteroidId": "asteroid.large-hazard", "position": { "x": 30, "y": 0, "z": -80 }, "rotation": 0.95 },
+    { "asteroidId": "asteroid.large-hazard-b", "position": { "x": -30, "y": 0, "z": -80 }, "rotation": 2.2 },
+    { "asteroidId": "asteroid.large-hazard-b", "position": { "x": 30, "y": 0, "z": 80 }, "rotation": 3.85 },
+    { "asteroidId": "asteroid.large-hazard", "position": { "x": -30, "y": 0, "z": 80 }, "rotation": 5.3 },
+    { "asteroidId": "asteroid.small-rock", "position": { "x": 35, "y": 30, "z": 0 }, "rotation": 0.5 },
+    { "asteroidId": "asteroid.small-rock-b", "position": { "x": -35, "y": 30, "z": 0 }, "rotation": 2.6 },
+    { "asteroidId": "asteroid.small-rock-b", "position": { "x": 35, "y": -30, "z": 0 }, "rotation": 1.1 },
+    { "asteroidId": "asteroid.small-rock", "position": { "x": -35, "y": -30, "z": 0 }, "rotation": 4.0 },
+    { "asteroidId": "asteroid.small-rock", "position": { "x": 60, "y": 8, "z": 34 }, "rotation": 0.9 },
+    { "asteroidId": "asteroid.small-rock-b", "position": { "x": -60, "y": 8, "z": 34 }, "rotation": 2.3 },
+    { "asteroidId": "asteroid.small-rock-b", "position": { "x": 60, "y": -8, "z": -34 }, "rotation": 1.6 },
+    { "asteroidId": "asteroid.small-rock", "position": { "x": -60, "y": -8, "z": -34 }, "rotation": 3.3 },
+    { "asteroidId": "asteroid.small-rock", "position": { "x": 14, "y": 0, "z": 55 }, "rotation": 0.25 },
+    { "asteroidId": "asteroid.small-rock-b", "position": { "x": -14, "y": 0, "z": 55 }, "rotation": 1.85 },
+    { "asteroidId": "asteroid.small-rock-b", "position": { "x": 14, "y": 0, "z": -55 }, "rotation": 2.75 },
+    { "asteroidId": "asteroid.small-rock", "position": { "x": -14, "y": 0, "z": -55 }, "rotation": 4.6 }
+  ],
+  "spawnPoints": [
+    { "id": "sp-blue-1", "team": 0, "position": { "x": -92, "y": 0, "z": -16 }, "heading": 0 },
+    { "id": "sp-blue-2", "team": 0, "position": { "x": -92, "y": 0, "z": -8 }, "heading": 0 },
+    { "id": "sp-blue-3", "team": 0, "position": { "x": -92, "y": 0, "z": 0 }, "heading": 0 },
+    { "id": "sp-blue-4", "team": 0, "position": { "x": -92, "y": 0, "z": 8 }, "heading": 0 },
+    { "id": "sp-blue-5", "team": 0, "position": { "x": -92, "y": 0, "z": 16 }, "heading": 0 },
+    { "id": "sp-red-1", "team": 1, "position": { "x": 92, "y": 0, "z": -16 }, "heading": 3.141593 },
+    { "id": "sp-red-2", "team": 1, "position": { "x": 92, "y": 0, "z": -8 }, "heading": 3.141593 },
+    { "id": "sp-red-3", "team": 1, "position": { "x": 92, "y": 0, "z": 0 }, "heading": 3.141593 },
+    { "id": "sp-red-4", "team": 1, "position": { "x": 92, "y": 0, "z": 8 }, "heading": 3.141593 },
+    { "id": "sp-red-5", "team": 1, "position": { "x": 92, "y": 0, "z": 16 }, "heading": 3.141593 }
+  ],
+  "lighting": {
+    "ambientColor": "#1c2432",
+    "ambientIntensity": 0.32,
+    "directionalIntensity": 1.0
+  },
+  "render": {
+    "skybox": {
+      "texture": "skyboxes/ring-nebula.webp",
+      "intensity": 0.9,
+      "tint": "#dceaff",
+      "sun": {
+        "dir": [-0.42, 0.63, 0.655],
+        "color": "#cfe4ff",
+        "intensity": 1.15
+      }
+    },
+    "boundaryShield": {
+      "baseOpacity": 0.05,
+      "glowStartDistance": 40,
+      "redTransitionDistance": 16,
+      "warnDistance": 22,
+      "blueColor": "#45c8ff",
+      "redColor": "#ff405c",
+      "hexDensity": 42,
+      "warningNotification": "notification.boundary-warning"
+    }
+  },
+  "zones": []
+}

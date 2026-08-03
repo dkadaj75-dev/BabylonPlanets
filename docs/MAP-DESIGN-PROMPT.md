@@ -9,8 +9,9 @@ tests, ready to drop into the game per
 Worked results built with this prompt live in [`examples/`](../examples):
 `lunar-crater.json` (5v5 CTF crater, built from a design-sheet image),
 `broken-halo.json` (5v5 CTF around a vertical rock halo with an empty eye),
-`twin-titans.json` (sparse 1v1 duel around two off-axis colossals). Load their
-values into the editor panels to study or remix them.
+`twin-titans.json` (sparse 1v1 duel around two off-axis colossals),
+`core-orbit.json` (standard 5v5 team-deathmatch bubble orbiting a colossal
+centrepiece). Load their values into the editor panels to study or remix them.
 
 ````text
 You are a map builder for Space Arena, a Babylon.js 3D space-combat game whose maps are
