@@ -41,7 +41,7 @@ const syncScene = (): void => {
 state.onChange(syncScene);
 syncScene();
 
-buildPanels(sidebar, state, {
+const panels = buildPanels(sidebar, state, {
   onSkyboxGenerated(result) {
     if (!editor) return;
     if (skyboxUrl) URL.revokeObjectURL(skyboxUrl);
@@ -51,6 +51,16 @@ buildPanels(sidebar, state, {
     editor.applySkyboxPreview(skyboxUrl, radius, skybox?.intensity ?? 0.9);
     editor.setSun(result.sunDir, skybox?.sun?.color ?? "#ffffff", skybox?.sun?.intensity ?? 1);
   }
+});
+
+// Drop an arena JSON anywhere on the page to load it. Both listeners must
+// preventDefault: without the dragover handler the browser never fires drop,
+// and without the drop handler it navigates away to render the file instead.
+document.addEventListener("dragover", (e) => e.preventDefault());
+document.addEventListener("drop", (e) => {
+  e.preventDefault();
+  const file = e.dataTransfer?.files?.[0];
+  if (file) panels.importFile(file);
 });
 
 // Default starfield + sun so the viewport reads as space from the first frame

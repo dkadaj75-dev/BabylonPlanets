@@ -65,5 +65,22 @@ export class PlacementLayer {
       mesh.material = mat;
       this.meshes.push(mesh);
     });
+
+    // Flag bases draw as a flat ring at their true capture radius — a torus
+    // rather than a disc so the ring reads as an area to fly into and does not
+    // hide rocks behind it. Babylon's torus already lies in the XZ plane.
+    (arena.flagBases ?? []).forEach((fb, i) => {
+      const mesh = MeshBuilder.CreateTorus(
+        `flag-base-${i}`,
+        { diameter: fb.radius * 2, thickness: 1.4, tessellation: 32 },
+        this.scene
+      );
+      mesh.position.set(fb.position.x, fb.position.y ?? 0, fb.position.z);
+      const mat = new StandardMaterial(`flag-base-${i}-mat`, this.scene);
+      mat.emissiveColor = Color3.FromHexString(TEAM_COLORS[fb.team % TEAM_COLORS.length] ?? "#ffffff");
+      mat.disableLighting = true;
+      mesh.material = mat;
+      this.meshes.push(mesh);
+    });
   }
 }

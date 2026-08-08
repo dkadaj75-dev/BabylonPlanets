@@ -2,9 +2,17 @@
 
 A standalone, browser-based **Babylon.js map / planet / skybox builder** for
 Space Arena. Build an arena visually — bounds, asteroid placements, spawn
-points — generate an equirectangular skybox panorama, and export game-ready
-data: an `arena.*` JSON config plus a `.webp` panorama that drop straight into
-the game's `content/` tree.
+points, flag bases — generate an equirectangular skybox panorama, and export
+game-ready data: an `arena.*` JSON config plus a `.webp` panorama that drop
+straight into the game's `content/` tree.
+
+- **Load** any of the shipped example maps from a dropdown, open an exported
+  `.json`, or drop one onto the viewport.
+- **Geometry check** runs the game's `shippedArenaGeometry` rules live as you
+  edit — extent, spawn corridor, centrepiece clearance, rock separation,
+  vertical spread — so a map that would fail the game's CI says so here first.
+- **Export** either the single arena JSON or the whole `content/` tree as a
+  zip, manifest snippet included.
 
 - **Tech stack & architecture:** [TECH_STACK.md](TECH_STACK.md)
 - **Export target format (authoritative):** [docs/space-arena-import-reference.md](docs/space-arena-import-reference.md)

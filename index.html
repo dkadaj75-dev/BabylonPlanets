@@ -128,6 +128,51 @@
       .error:empty {
         display: none;
       }
+      .example-select {
+        width: 100%;
+        background: #121828;
+        color: #dbe4f2;
+        border: 1px solid #26314a;
+        border-radius: 4px;
+        padding: 4px 5px;
+        margin: 3px 0;
+      }
+      .diag {
+        font-size: 11px;
+        border-radius: 4px;
+        padding: 3px 6px;
+        margin: 3px 0;
+        border-left: 3px solid;
+        white-space: pre-wrap;
+      }
+      .diag-ok {
+        color: #8fd0a0;
+        border-color: #8fd0a0;
+        background: #0e1a13;
+      }
+      .diag-error {
+        color: #ff8a9a;
+        border-color: #ff8a9a;
+        background: #1d1013;
+      }
+      .diag-warning {
+        color: #ffd24a;
+        border-color: #ffd24a;
+        background: #1c1810;
+      }
+      .diag-info {
+        color: #9fb4d8;
+        border-color: #2c3d61;
+        background: #101725;
+      }
+      .diag-list:empty,
+      .warn-list:empty {
+        display: none;
+      }
+      .diag-list {
+        max-height: 210px;
+        overflow-y: auto;
+      }
       #fatal-error {
         position: fixed;
         top: 0;

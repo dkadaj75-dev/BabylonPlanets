@@ -20,8 +20,11 @@ over exactly that data, and to refuse to produce anything the game would reject.
 - TypeScript in `strict` mode, because the whole point of the tool is emitting
   schema-correct data — static types on the arena model catch a large class of
   export bugs before the zod layer does.
-- ES2022 target: the tool is desktop-browser-only (it's an authoring tool, not
-  the game client), so no legacy transpilation budget is spent.
+- Build target `["es2018", "safari12"]`. This started as ES2022 on the reasoning
+  that an authoring tool is desktop-only, but the tool is used on an iPad, and
+  a syntax the browser cannot parse takes down the *whole* module — a blank
+  page with no error anywhere. The transpilation cost is a few KB; the failure
+  mode it removes is total, so the trade is not close.
 
 ### Rendering — `@babylonjs/core` ES6 packages
 
@@ -62,8 +65,18 @@ over exactly that data, and to refuse to produce anything the game would reject.
     than letting positions silently clamp.
   - **`|sun.dir| = 1 ± 0.02`** — a non-unit sun direction is otherwise very
     hard to spot visually.
-- Additional cross-field checks (spawn points inside bounds) live in a
-  `superRefine`, matching what the game's schema enforces.
+- Additional cross-field checks (spawn points **and flag bases** inside bounds)
+  live in a `superRefine`, matching what the game's schema enforces.
+- **`flagBases` is modelled even though the reference doc omits it.** All three
+  shipped CTF examples carry a top-level `flagBases` array, and `z.object()`
+  strips unknown keys — so before it was modelled, loading and re-exporting a
+  capture-the-flag map silently deleted its flag bases. The shipped examples
+  plus `docs/MAP-DESIGN-PROMPT.md` are the authoritative shape here; the
+  reference doc is simply incomplete on this point.
+- The schema stays strict about fields it does *not* recognise, but the import
+  path diffs raw-against-parsed and **warns about every dropped key**, so a
+  field the builder cannot model (currently `bounds.floorY`, used by one crater
+  example) is a visible message rather than silent data loss.
 - zod over hand-rolled validation: the inferred types double as the editor's
   model types, so the schema is the single source of truth on our side too.
 
@@ -91,12 +104,18 @@ over exactly that data, and to refuse to produce anything the game would reject.
 - `exportArena()` validates through the zod schema and produces
   `<slug>.json` (slug = id minus the `arena.` prefix), pretty-printed to match
   the shipped configs. A browser-download helper wraps it.
-- Planned full export: a folder/zip laid out exactly like the game's
-  `content/` tree — `arenas/<slug>.json`, `skyboxes/<slug>.webp`, plus any new
-  `asteroids/*.json` the map invents — together with a generated snippet of
-  `manifest.json` entries, because *a config not listed in the manifest does
-  not exist* (the reference doc calls this the single most common integration
-  mistake).
+- `buildArenaBundle()` produces the full export: a zip laid out exactly like
+  the game's `content/` tree — `arenas/<slug>.json`, `skyboxes/<slug>.webp`
+  when a panorama has been generated — together with `manifest-snippet.json`
+  holding the entries to merge, because *a config not listed in the manifest
+  does not exist* (the reference doc calls this the single most common
+  integration mistake). The panorama's extension follows the blob's real MIME
+  type, so a Safari-generated PNG is never shipped named `.webp`.
+- The ZIP writer (`export/zip.ts`) is hand-rolled, ~150 lines, STORE method
+  only. Pulling in jszip to concatenate two files — one of which is already
+  compressed — would cost more than it saves and break the zero-dependency
+  stance. Archives are byte-deterministic (fixed DOS epoch, no `Date.now()`),
+  which is what makes them testable.
 - The importer's checklist (§8 of the reference doc) is embedded in doc
   comments at the export call site so it travels with the code.
 
@@ -121,18 +140,29 @@ over exactly that data, and to refuse to produce anything the game would reject.
 
 ```
 src/
-  main.ts                  bootstraps the editor
-  scene/EditorScene.ts     Babylon viewport: camera, lights, bounds bubble
-  scene/placements.ts      (planned) asteroid/spawn gizmos, drag placement
+  main.ts                  bootstraps the editor; drag-and-drop import
+  scene/EditorScene.ts     Babylon viewport: camera, lights, bounds bubble,
+                           skybox preview using the game's exact material
+                           recipe (emissive panorama, BACKSIDE sphere,
+                           black emissiveColor)
+  scene/placements.ts      renders asteroids, spawn cones, flag-base rings
   schema/arena.ts          zod schemas + constants (limits, tolerances)
+  validate/geometry.ts     the game's shippedArenaGeometry rules, as a pure
+                           function returning severity-tagged diagnostics
   export/exportArena.ts    validate → serialize → download; manifest snippet
+  export/zip.ts            dependency-free deterministic ZIP writer (STORE)
+  export/exportBundle.ts   the full content/ tree as a downloadable archive
+  state/editorState.ts     the single in-memory model + pub/sub
+  state/importArena.ts     JSON → validated model, with dropped-key warnings
+  examples/index.ts        the shipped maps, bundled so the editor can load
+                           one without a round trip to disk
   skybox/generateSkybox.ts procedural panorama + sun-direction hand-off
-  preview/                 (planned) in-builder skybox preview using the
-                           game's exact material recipe (emissive panorama,
-                           BACKSIDE sphere, black emissiveColor)
-  ui/                      (planned) DOM panels: properties, placements,
-                           skybox controls, export
+  ui/panels.ts             DOM panels: load, properties, geometry check,
+                           placements, spawns, flag bases, skybox, export
 ```
+
+Still planned: direct manipulation in the viewport (drag a rock to move it,
+gizmos for spawn heading) — today every value is typed into a panel field.
 
 ## Hard constraints the builder enforces (recap)
 

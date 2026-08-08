@@ -89,6 +89,25 @@ export const spawnPointSchema = z.object({
     .optional()
 });
 
+/**
+ * Capture-the-flag base pad — one per team, the ring a carried flag scores at.
+ *
+ * NOTE: docs/space-arena-import-reference.md does not document flagBases at
+ * all, so the CTF configs shipped in examples/ (lunar-crater.json,
+ * lunar-crater-3d.json, broken-halo.json) are the authoritative shape. Their
+ * conventions, followed by docs/MAP-DESIGN-PROMPT.md: id "flag-base-blue" for
+ * team 0 and "flag-base-red" for team 1, radius 16, sitting at or just behind
+ * each team's spawn line and mirror-symmetric in x.
+ */
+export const flagBaseSchema = z.object({
+  id: z.string().min(1),
+  team: z.number().int().min(0),
+  /** shares vec3Schema so bases inherit the same ±327.67 wire-format limit */
+  position: vec3Schema,
+  /** capture/return trigger radius in arena units; shipped maps use 16 */
+  radius: z.number().positive()
+});
+
 export const lightingSchema = z.object({
   ambientColor: hexColor.optional(),
   ambientIntensity: z.number().min(0).optional(),
@@ -159,6 +178,15 @@ export const arenaSchema = z
     bounds: boundsSchema,
     asteroidPlacements: z.array(asteroidPlacementSchema).default([]),
     spawnPoints: z.array(spawnPointSchema).min(1),
+    /**
+     * CTF maps only. Optional rather than `.default([])` on purpose: z.object()
+     * strips unknown keys, so while this key was missing from the schema every
+     * export silently dropped the flag bases of a CTF map. Defaulting to []
+     * would stop the data loss but would also stamp an empty flagBases array
+     * onto every deathmatch export, changing output the game already consumes —
+     * so an absent array stays absent.
+     */
+    flagBases: z.array(flagBaseSchema).optional(),
     lighting: lightingSchema.optional(),
     render: renderSchema.optional(),
     zones: z.array(z.unknown()).optional()
@@ -173,6 +201,17 @@ export const arenaSchema = z
         });
       }
     });
+    // A flag base outside the bubble is unreachable, so it fails the same way
+    // a stranded spawn pad does.
+    arena.flagBases?.forEach((fb, i) => {
+      if (!isInsideBounds(fb.position, arena.bounds)) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          path: ["flagBases", i, "position"],
+          message: `flag base "${fb.id}" lies outside the arena bounds`
+        });
+      }
+    });
   });
 
 export type ArenaConfig = z.infer<typeof arenaSchema>;
@@ -180,3 +219,4 @@ export type BoundsInput = z.input<typeof boundsSchema>;
 export type ArenaConfigInput = z.input<typeof arenaSchema>;
 export type AsteroidPlacement = z.infer<typeof asteroidPlacementSchema>;
 export type SpawnPoint = z.infer<typeof spawnPointSchema>;
+export type FlagBase = z.infer<typeof flagBaseSchema>;
